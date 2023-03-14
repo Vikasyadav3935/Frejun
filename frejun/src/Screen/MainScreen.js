@@ -1,26 +1,94 @@
-import { View, Text ,Button} from 'react-native'
-import {useState} from 'react'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import {
+  View,
+  Text,
+  RefreshControl,
+  FlatList,
+  ActivityIndicator,
+  Dimensions,StyleSheet
+} from 'react-native';
+import {useState, useEffect} from 'react';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchData} from '../Redux/createSlice';
+import RenderItem from '../Components/RenderItem';
+
+
 
 const MainScreen = () => {
-    const [data,setData]=useState([]);
+  const [user, setUser] = useState([]);
+  const [page, setPage] = useState(1);
+  const [refreshing,setRefreshing]=useState(false);
 
-    const Apidata=()=>{
-        fetch('https://jsonplaceholder.typicode.com/posts?_page=1&_limit=10')
-        .then(res=>res.json())
-        .then(res=>setData(res))
-      }
+
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.data);
+
+  const onRefresh=()=>{
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }
+
+  useEffect(() => {
+  loadState();
+  }, [page]);
+
+  const loadState = () => {
+    dispatch(fetchData(page));
+   
+   
+    
+  };
+
+  useEffect(()=>{
+   if(data.data.length>0){
+    setUser(prev => [...prev, ...data.data]);
+   }
+  },[data.data])
+
+  const EndReach=()=>{
+   setPage(page+1)
+  }
+
+  console.log(user.length);
+
+  
+
+  const Footer = () => {
+    return <ActivityIndicator size="large" />;
+  };
 
   return (
-    <View style={{flex:1,justifyContent:'center'}}>
-    <Button title='Call' onPress={Apidata} />
-     {
-       data.map((el)=>(
-         <Text key={el.id}>{el.id}.{el.title}</Text>
-       ))
-     }
-    </View>
-  )
-}
+    <View>
+     {/* <View style={styles.view}>
 
-export default MainScreen
+     </View> */}
+    <FlatList
+      data={user}
+      renderItem={({item}) => (
+        <RenderItem item={item}/>
+      )}
+      onEndReached={EndReach}
+      ListFooterComponent={<Footer />}
+    
+      keyExtractor={el => el.id}
+      refreshControl={
+        <RefreshControl  refreshing={refreshing} onRefresh={onRefresh} />
+      }
+     
+    />
+    </View>
+  );
+};
+
+export default MainScreen;
+
+const styles=StyleSheet.create({
+  view:{
+   height:40,
+   backgroundColor:'white',
+   elevation:3,
+  }
+})

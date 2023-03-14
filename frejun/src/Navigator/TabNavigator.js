@@ -22,11 +22,11 @@ const TabNavigator = () => {
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
     
-              if (route.name === 'Home') {
+              if (route.name === 'Main') {
                 iconName = focused ? 'home' : 'home-outline';
-              } else if (route.name === 'Chat') {
+              } else if (route.name === 'Sorting') {
                 iconName = focused ? 'chatbox' : 'chatbox-outline';
-              }else if (route.name === 'Profile') {
+              }else if (route.name === 'Native') {
                 iconName = focused ? 'happy' : 'happy-outline';
               }
     
@@ -34,9 +34,9 @@ const TabNavigator = () => {
             },
           })}
         >
-         <Tab.Screen  name='MainScreen' component={MainScreen}   options={{headerShown:false}} />
-         <Tab.Screen  name='SecondScreen' component={SecondScreen} options={{headerShown:false}}  />
-         <Tab.Screen  name='ThirdScreen' component={ThirdScreen}   options={{headerShown:false}} />
+         <Tab.Screen  name='Main' component={MainScreen}   options={{headerShown:false}} />
+         <Tab.Screen  name='Sorting' component={SecondScreen} options={{headerShown:false}}  />
+         <Tab.Screen  name='Native' component={ThirdScreen}   options={{headerShown:false}} />
         </Tab.Navigator>
     </NavigationContainer>
   )
