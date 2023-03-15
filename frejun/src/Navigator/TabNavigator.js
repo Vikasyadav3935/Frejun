@@ -7,6 +7,7 @@ import SecondScreen from '../Screen/SecondScreen';
 import ThirdScreen from '../Screen/ThirdScreen';
 import  Ionicons from 'react-native-vector-icons/Ionicons';
 
+
 const TabNavigator = () => {
 
     const Tab = createBottomTabNavigator();
@@ -31,8 +32,14 @@ const TabNavigator = () => {
               }
     
               return getTabBarIcon(iconName)({ color, size });
+              
             },
+            tabBarHideOnKeyboard: true,
+            
+            
+            
           })}
+         
         >
          <Tab.Screen  name='Main' component={MainScreen}   options={{headerShown:false}} />
          <Tab.Screen  name='Sorting' component={SecondScreen} options={{headerShown:false}}  />
@@ -41,5 +48,6 @@ const TabNavigator = () => {
     </NavigationContainer>
   )
 }
+
 
 export default TabNavigator;

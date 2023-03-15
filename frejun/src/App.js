@@ -5,7 +5,9 @@ import { store } from './Redux/store';
 const App=()=>{
 
   return (
+    
     <Provider store={store}>
+
     <TabNavigator/>
     </Provider>
   )

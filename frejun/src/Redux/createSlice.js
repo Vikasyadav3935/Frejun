@@ -14,7 +14,13 @@ const DataSlice = createSlice({
     data: [],
     status: 'idle',
   },
-  reducers: {},
+  reducers: {
+
+   
+    emptyState: (state, action) => {
+      state.data= [];
+    } 
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchData.pending, state => {
@@ -22,9 +28,13 @@ const DataSlice = createSlice({
       })
       .addCase(fetchData.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.data = action.payload;
+        
+        state.data = [...state.data,...action.payload];
+        
       });
   },
 });
+
+export const {emptyState}=DataSlice.actions;
 
 export default DataSlice.reducer;

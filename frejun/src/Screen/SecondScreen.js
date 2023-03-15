@@ -4,11 +4,12 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
+  FlatList,Dimensions,KeyboardAvoidingView
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {todos} from '../Components/data';
 import RenderItem from '../Components/RenderItem';
+
 
 const SecondScreen = () => {
   const [data, setData] = useState(todos);
@@ -44,8 +45,18 @@ const SecondScreen = () => {
     
   };
 
+  const EmptyComponent=()=>{
+    return (
+      <View style={{alignSelf:'center',marginTop:30}}>
+        <Text>Type something in input and you will get titles in which this substring is present</Text>
+      </View>
+    )
+  }
+
   return (
-    <View style={styles.view}>
+    
+
+<View style={styles.view}>
       <View style={styles.top}>
         <TextInput
         placeholder='Type something'
@@ -58,7 +69,7 @@ const SecondScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.btn} onPress={sorting}>
           <Text style={{color: 'white'}}>
-            {sort === 'asc' ? 'Sort (A-Z)' : 'Sort (Z-A)'}{' '}
+            {sort === 'asc' ? 'Sort (Z-A)' : 'Sort (A-Z)'}{' '}
           </Text>
         </TouchableOpacity>
       </View>
@@ -69,8 +80,10 @@ const SecondScreen = () => {
          <RenderItem item={item}/>
         )}
         keyExtractor={el => el.id}
+        ListEmptyComponent={<EmptyComponent/>}
       />
     </View>
+
   );
 };
 
@@ -79,7 +92,7 @@ export default SecondScreen;
 const styles = StyleSheet.create({
   view: {
     marginTop: 20,
-    width: '95%',
+    width: '100%',
     alignSelf: 'center',
   },
   input: {
